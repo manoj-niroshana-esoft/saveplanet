@@ -9,7 +9,7 @@ $configData = Helper::applClasses();
       <li class="nav-item mr-auto">
         <a class="navbar-brand" href="dashboard-analytics">
           <div class="brand-logo"></div>
-          <h2 class="brand-text mb-0">Save Planets</h2>
+          <h2 class="brand-text mb-0">Save Planet</h2>
         </a>
       </li>
       <li class="nav-item nav-toggle">
