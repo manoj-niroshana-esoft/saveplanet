@@ -123,6 +123,7 @@ Route::get('/pricing', 'PagesController@pricing');
 
 // Route Authentication Pages
 Route::get('/auth-login', 'AuthenticationController@login')->name('login');
+Route::get('/check-login', 'AuthenticationController@check_login')->name('check_login');
 Route::get('/auth-register', 'AuthenticationController@register');
 Route::get('/auth-forgot-password', 'AuthenticationController@forgot_password');
 Route::get('/auth-reset-password', 'AuthenticationController@reset_password');
@@ -169,10 +170,10 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 
 // Save Planet Routes start
-Route::get('clear-cache', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('view:clear');
-    Artisan::call('route:clear');
-    Artisan::call('config:clear');
-    return "Cache is cleared...";
-});
+// Route::get('clear-cache', function () {
+//     Artisan::call('cache:clear');
+//     Artisan::call('view:clear');
+//     Artisan::call('route:clear');
+//     Artisan::call('config:clear');
+//     return "Cache is cleared...";
+// });
