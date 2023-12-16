@@ -34,7 +34,7 @@ class ComplaintController extends Controller
         $breadcrumbs = [
             ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "View Complaint"]
         ];
-        $complaints = Complaint::all();
+        $complaints = Complaint::orderBy('complaint_id', 'desc')->get();
         $complaints->transform(function ($complaint) {
             switch ($complaint->complain_type) {
                 case '1':
@@ -81,7 +81,6 @@ class ComplaintController extends Controller
 
     public function new_complaint(Request $request)
     {
-
         DB::beginTransaction();
 
         try {
@@ -127,10 +126,10 @@ class ComplaintController extends Controller
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                     $extension = $image->getClientOriginalExtension();
                     $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-                    $path = $image->storeAs('public/cv', $fileNameToStore);
+                    $path = $image->storeAs('public/img', $fileNameToStore);
                     ComplaintDetail::create([
                         'complaint_id' => $complaint,
-                        'picture_of_evidence' => $path,
+                        'picture_of_evidence' => 'img/' . $fileNameToStore,
                     ]);
                 }
             }
@@ -142,7 +141,7 @@ class ComplaintController extends Controller
             AuditLog::create([
                 'u_id' => 1,
                 'section_name' => 'New Complain',
-                'action' => 'Add New Complaint',
+                'action' => 'Add New Complaint - Error',
                 'previous_records' => '',
                 'new_records' => 'Complaint Type : ' . $complain_type . ' Complaint : ' . $request->shortDescription
             ]);
@@ -151,5 +150,28 @@ class ComplaintController extends Controller
         }
     }
 
-    
+    public function view_complaint_details(Request $request)
+    {
+        $breadcrumbs = [
+            ['link' => "dashboard-analytics", 'name' => "Home"], ['link' => "view-complaint", 'name' => "View Complaints"], ['name' => "View Complaint Details"]
+        ];
+        $tracking_id = $request->id;
+        $complaints = Complaint::where('complaint_id', $tracking_id)->get();
+        $complaints->transform(function ($complaint) {
+            $complaint_details = ComplaintDetail::where('complaint_id', $complaint->complaint_id)->get('picture_of_evidence');
+            return [
+                'complaint_id' => $complaint->complaint_id,
+                'longitude' => $complaint->longitude,
+                'latitude' => $complaint->latitude,
+                'complaint_details' => $complaint_details,
+                'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $complaint->created_at)->format('Y-m-d H:i:s'),
+                'updated_at' => $complaint->updated_at != null ? Carbon::createFromFormat('Y-m-d H:i:s', $complaint->updated_at)->format('Y-m-d H:i:s') : '-',
+            ];
+        });
+        // dd($complaints[0]);
+        return view('/pages/view-complaint-details', [
+            'breadcrumbs' => $breadcrumbs,
+            'complaints' => $complaints[0],
+        ]);
+    }
 }
