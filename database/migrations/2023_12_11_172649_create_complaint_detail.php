@@ -17,9 +17,7 @@ class CreateComplaintDetail extends Migration
             $table->bigIncrements('complaint_detail_id');
             $table->unsignedBigInteger('complaint_id')->nullable();
             $table->foreign('complaint_id')->references('complaint_id')->on('complaint');
-            $table->string('location');
             $table->string('picture_of_evidence');
-            $table->string('timeframe');
             $table->timestamps();
             $table->softDeletes();
         });

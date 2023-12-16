@@ -22,6 +22,9 @@ class CreateOfficer extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('admin_u_id')->on('admin');
             $table->string('name');
+            $table->integer('availability');
+            $table->unsignedBigInteger('current_complaint_id')->nullable();
+            $table->foreign('current_complaint_id')->references('complaint_id')->on('complaint');
             $table->string('nic');
             $table->string('address');
             $table->timestamps();

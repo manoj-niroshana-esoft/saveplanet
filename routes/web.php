@@ -11,7 +11,7 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Auth::routes();
 
 // Route url
 Route::get('/', 'DashboardController@dashboardAnalytics');
@@ -123,11 +123,26 @@ Route::get('/pricing', 'PagesController@pricing');
 
 // Route Authentication Pages
 Route::get('/auth-login', 'AuthenticationController@login')->name('login');
-Route::get('/check-login', 'AuthenticationController@check_login')->name('check_login');
+Route::post('/authenticate', 'AuthenticationController@authenticate')->name('authenticate');
 Route::get('/auth-register', 'AuthenticationController@register');
+Route::post('/register-user', 'AuthenticationController@register_user')->name('register_user');
+Route::get('/logout', 'AuthenticationController@logout')->name('logout');
 Route::get('/auth-forgot-password', 'AuthenticationController@forgot_password');
 Route::get('/auth-reset-password', 'AuthenticationController@reset_password');
 Route::get('/auth-lock-screen', 'AuthenticationController@lock_screen');
+
+// complain management
+Route::get('/complaint', 'ComplaintController@complaint');
+Route::post('/new-complaint', 'ComplaintController@new_complaint')->name('new_complaint');
+Route::get('/view-complaint', 'ComplaintController@view_complaint')->name('view_complaint');
+Route::get('/new-complaint', 'ComplaintController@wizard');
+
+// Tracking Management
+Route::get('/track-complaint/{id}', 'TrackingController@track_complaints')->name('track_complaints');
+Route::post('/save-track-complaint', 'TrackingController@save_track_complaints')->name('save_track_complaints');
+
+// Audit log
+Route::get('/view-audit-log', 'AuditlogController@view_audit_log')->name('view_audit_log');
 
 // Route Miscellaneous Pages
 Route::get('/page-coming-soon', 'MiscellaneousController@coming_soon');

@@ -17,7 +17,9 @@ class CreateComplaintStatus extends Migration
             $table->bigIncrements('complaint_status_id');
             $table->unsignedBigInteger('complaint_id')->nullable();
             $table->foreign('complaint_id')->references('complaint_id')->on('complaint');
-            $table->integer('status')->comment('1->pending, 2->Waiting for assign officer, 3->officer allocated, 4->Ongoing, 5->Complete');
+            $table->integer('status')->comment('1->Complained,2->Officer Assigned, 3->Ongoing, 4->Completed');
+            $table->unsignedBigInteger('officer_id')->nullable();
+            $table->foreign('officer_id')->references('u_id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });
