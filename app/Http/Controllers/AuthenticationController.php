@@ -102,6 +102,19 @@ class AuthenticationController extends Controller
         }
     }
 
+     // Register
+    public function register()
+    {
+        $pageConfigs = [
+            'bodyClass' => "bg-full-screen-image",
+            'blankPage' => true
+        ];
+
+        return view('/pages/auth-register', [
+            'pageConfigs' => $pageConfigs
+        ]);
+    }
+    
     // Forgot Password
     public function forgot_password()
     {
