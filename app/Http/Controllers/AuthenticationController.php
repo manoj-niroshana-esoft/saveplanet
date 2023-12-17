@@ -3,7 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use DB;
+use Hash;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\View;
+use Log;
+use Mail;
+use stdClass;
+use Str;
+use Validator;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthenticationController extends Controller
 {
@@ -37,17 +48,58 @@ class AuthenticationController extends Controller
         ])->onlyInput('email');
     }
 
-    // Register
-    public function register()
+    public function register_user(Request $request)
     {
-        $pageConfigs = [
-            'bodyClass' => "bg-full-screen-image",
-            'blankPage' => true
-        ];
 
-        return view('/pages/auth-register', [
-            'pageConfigs' => $pageConfigs
+        $userDeatils = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'password' => 'required|string|min:8',
+            'confirm_password' => 'required|same:password|min:8',
+            'address' => 'required',
+            'nic' => 'required|unique:users,nic',
+            'email' => 'required|email|unique:users,email',
         ]);
+
+        if ($userDeatils->fails()) {
+            return redirect('auth-register')->with('error', $userDeatils->errors()->first());
+        }
+        DB::beginTransaction();
+        try {
+
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'password' => Hash::make($request->password),
+                'address' => $request->address,
+                'nic' => $request->nic,
+                'email' => $request->email,
+            ]);
+
+            /**
+             * Start Activation Link
+             */
+            do {
+                $token_id = Str::random(32);
+            } while (User::where('verification_token', '=', $token_id)->first() instanceof User);
+
+            // $user = User::find($user->u_id);
+            $user->update([
+                'verification_token' => $token_id,
+            ]);
+            // $link = config('app.activation_link') . $token_id;
+            // Mail::send(new ActivationLink($link, $user->email, $request->candidate_type == '2' ? $prefixWithNewAdmission : $request->school_admission_no, $request->user_name));
+            /**
+             * End Activation LInk
+             */
+
+            DB::commit();
+            return redirect('auth-login')->with('success', 'User Created in successfully!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::critical($e->getMessage());
+            return redirect('auth-register')->with('error', $e->getMessage());
+        }
     }
 
     // Forgot Password
@@ -76,16 +128,12 @@ class AuthenticationController extends Controller
         ]);
     }
 
-    // Lock Screen
-    public function lock_screen()
+    public function logout(Request $request)
     {
-        $pageConfigs = [
-            'bodyClass' => "bg-full-screen-image",
-            'blankPage' => true
-        ];
-
-        return view('/pages/auth-lock-screen', [
-            'pageConfigs' => $pageConfigs
-        ]);
+        Auth::logout();
+        $request->session()->flush();
+        $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        return redirect('/auth-login');
     }
 }
