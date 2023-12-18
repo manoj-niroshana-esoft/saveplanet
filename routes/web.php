@@ -14,7 +14,11 @@ use App\Http\Controllers\LanguageController;
 // Auth::routes();
 
 // Route url
-Route::get('/', 'DashboardController@dashboardAnalytics');
+// Route::get('/', function () {
+//     return redirect('/auth-login');
+// });
+Route::get('/', 'AuthenticationController@login');
+// Route::get('/', 'DashboardController@dashboardAnalytics');
 
 // Route Dashboards
 Route::get('/dashboard-analytics', 'DashboardController@dashboardAnalytics');
