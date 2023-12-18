@@ -1,7 +1,7 @@
 {
   "menu": [
     {
-      "url": "/",
+      "url": "/dashboard-analytics",
       "name": "Dashboard",
       "slug": "dashboard",
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
