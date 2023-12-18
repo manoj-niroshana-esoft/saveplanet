@@ -88,4 +88,37 @@ class AuthenticationController extends Controller
             'pageConfigs' => $pageConfigs
         ]);
     }
+
+    public function authenticate(Request $request)
+    {
+        $userCredentials = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($userCredentials->fails()) {
+            return response()->json([
+                'error' => true,
+                "message" => $userCredentials->errors()->first(),
+            ]);
+        }
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // $request->session()->regenerate();
+
+            $user = Auth::check();
+            // dd($user);
+            return redirect()->intended('dashboard-analytics');
+        } else {
+            return redirect('auth-login')->with('error', 'Invalid Credentials!');}
+        }
+    
+        public function logout(Request $request)
+        {
+            Auth::logout();
+            $request->session()->invalidate();
+            // $request->session()->regenerateToken();
+            return redirect('/auth-login');
+        }
+
+
 }
