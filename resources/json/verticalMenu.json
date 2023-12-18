@@ -10,8 +10,26 @@
     },
     {
       "url": "",
-      "navheader": "Apps",
+      "navheader": "Complaint",
       "icon": ""
+    },
+    {
+      "url": "complaint",
+      "name": "New Complaint",
+      "icon": "feather icon-message-square",
+      "i18n": "nav.complaint"
+    },
+    {
+      "url": "view-complaint",
+      "name": "View Complaint",
+      "icon": "feather icon-airplay",
+      "i18n": "nav.complaint"
+    },
+    {
+      "url": "view-audit-log",
+      "name": "View Audit Log",
+      "icon": "feather icon-slack",
+      "i18n": "nav.complaint"
     },
     {
       "url": "app-email",

@@ -68,7 +68,8 @@ $(".steps-validation").steps({
         return form.valid();
     },
     onFinished: function (event, currentIndex) {
-        alert("Submitted!");
+        $( "#complaint_submit" ).trigger( "submit" );
+        // alert("Submitted!");
     }
 });
 
