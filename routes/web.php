@@ -14,7 +14,11 @@ use App\Http\Controllers\LanguageController;
 // Auth::routes();
 
 // Route url
-Route::get('/', 'DashboardController@dashboardAnalytics');
+// Route::get('/', function () {
+//     return redirect('/auth-login');
+// });
+Route::get('/', 'AuthenticationController@login');
+// Route::get('/', 'DashboardController@dashboardAnalytics');
 
 // Route Dashboards
 Route::get('/dashboard-analytics', 'DashboardController@dashboardAnalytics');
@@ -135,6 +139,7 @@ Route::get('/auth-lock-screen', 'AuthenticationController@lock_screen');
 Route::get('/complaint', 'ComplaintController@complaint');
 Route::post('/new-complaint', 'ComplaintController@new_complaint')->name('new_complaint');
 Route::get('/view-complaint', 'ComplaintController@view_complaint')->name('view_complaint');
+Route::get('/view-complaint-detailst/{id}', 'ComplaintController@view_complaint_details')->name('view_complaint_details');
 Route::get('/new-complaint', 'ComplaintController@wizard');
 
 // Tracking Management
