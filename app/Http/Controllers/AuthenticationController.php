@@ -103,22 +103,18 @@ class AuthenticationController extends Controller
             ]);
         }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // $request->session()->regenerate();
-
+            $request->session()->put('u_id', Auth::user()->u_id);
+            $request->session()->put('first_name', Auth::user()->first_name);
+            $request->session()->put('last_name', Auth::user()->last_name);
+            $request->session()->put('address', Auth::user()->address);
+            $request->session()->put('nic', Auth::user()->nic);
+            $request->session()->put('email', Auth::user()->email);
+            $request->session()->put('auth_user', 1);
             $user = Auth::check();
             // dd($user);
             return redirect()->intended('dashboard-analytics');
         } else {
-            return redirect('auth-login')->with('error', 'Invalid Credentials!');}
+            return redirect('auth-login')->with('error', 'Invalid Credentials!');
         }
-    
-        public function logout(Request $request)
-        {
-            Auth::logout();
-            $request->session()->invalidate();
-            // $request->session()->regenerateToken();
-            return redirect('/auth-login');
-        }
-
-
+    }
 }
