@@ -11,7 +11,15 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route Authentication Pages
+Route::get('/auth-login', 'AuthenticationController@login')->name('login');
+Route::post('/authenticate', 'AuthenticationController@authenticate')->name('authenticate');
+Route::get('/auth-register', 'AuthenticationController@register');
+Route::post('/register-user', 'AuthenticationController@register_user')->name('register_user');
+Route::get('/logout', 'AuthenticationController@logout')->name('logout');
+Route::get('/auth-forgot-password', 'AuthenticationController@forgot_password');
+Route::get('/auth-reset-password', 'AuthenticationController@reset_password');
+Route::get('/auth-lock-screen', 'AuthenticationController@lock_screen');
 
 // Route url
 Route::get('/', 'DashboardController@dashboardAnalytics');
