@@ -185,10 +185,10 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 
 // Save Planet Routes start
-// Route::get('clear-cache', function () {
-//     Artisan::call('cache:clear');
-//     Artisan::call('view:clear');
-//     Artisan::call('route:clear');
-//     Artisan::call('config:clear');
-//     return "Cache is cleared...";
-// });
+Route::get('clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    return "Cache is cleared...";
+});
