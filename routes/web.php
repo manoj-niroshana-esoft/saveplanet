@@ -11,7 +11,6 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Auth::routes();
 
 // Route url
 // Route::get('/', function () {
