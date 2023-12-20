@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Officer;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -18,6 +19,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthenticationController extends Controller
 {
+    //  public function __construct()
+    // {
+    //     $this->middleware('auth_verify');
+    // }
     // Login
     public function login()
     {
@@ -74,6 +79,7 @@ class AuthenticationController extends Controller
                 'address' => $request->address,
                 'nic' => $request->nic,
                 'email' => $request->email,
+                'user_type' => 1,
             ]);
 
             /**

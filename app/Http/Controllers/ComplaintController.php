@@ -171,7 +171,7 @@ class ComplaintController extends Controller
                     break;
             }
             $complaint = Complaint::insertGetId([
-                'u_id' => 1,
+                'u_id' => $request->session()->get('u_id'),
                 'complain_type' => $complain_type,
                 'complain_status' => 1,
                 'institution_id' => $institution_id,
