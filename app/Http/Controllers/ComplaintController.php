@@ -19,6 +19,10 @@ use Ramsey\Uuid\Type\Integer;
 
 class ComplaintController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth_verify');
+    }
     // Form Wizard
     public function complaint()
     {
@@ -263,5 +267,11 @@ class ComplaintController extends Controller
             'breadcrumbs' => $breadcrumbs,
             'complaints' => $complaints[0],
         ]);
+    }
+    public function destroy(Request $request)
+    {
+        $complaint_id = $request->id;
+
+        return redirect('view-complaint')->with('success', 'Complaint Removed in successfully!');
     }
 }
