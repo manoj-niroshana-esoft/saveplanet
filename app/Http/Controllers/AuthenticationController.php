@@ -18,10 +18,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthenticationController extends Controller
 {
-     public function __construct()
-    {
-        $this->middleware('auth_verify');
-    }
+    //  public function __construct()
+    // {
+    //     $this->middleware('auth_verify');
+    // }
     // Login
     public function login()
     {

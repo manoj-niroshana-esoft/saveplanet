@@ -216,6 +216,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //     return "Cache is cleared...";
 // });
 
-Route::get('/linkstorage', function () {
-    Artisan::call('storage:link');
-});
+// Route::get('/linkstorage', function () {
+//     Artisan::call('storage:link');
+// });
