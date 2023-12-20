@@ -16,8 +16,15 @@ use Carbon\Carbon;
 
 class TrackingController extends Controller
 {
+   public function __construct()
+    {
+        $this->middleware('auth_verify');
+    }
     public function track_complaints(Request $request)
     {
+        $breadcrumbs = [
+            ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "Track Complaint"]
+        ];
         $tracking_id = $request->id;
         $complaints = Complaint::where('complaint_id', $tracking_id)->get();
         $complaints->transform(function ($complaint) {
@@ -63,10 +70,7 @@ class TrackingController extends Controller
                 'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $trac->created_at)->format('D, M d'),
             ];
         });
-        // dd($tracking);
-        $breadcrumbs = [
-            ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "Track Complaint"]
-        ];
+
         return view('/pages/track-complaint', [
             'breadcrumbs' => $breadcrumbs,
             'complaint' => $complaints[0],
@@ -74,7 +78,6 @@ class TrackingController extends Controller
         ]);
     }
 
-    
     public function save_track_complaints(Request $request)
     {
         $complain_id = $request->complain_id;
@@ -117,4 +120,5 @@ class TrackingController extends Controller
             ]);
             return  back()->with('error', $e->getMessage());
         }
+    }
 }
