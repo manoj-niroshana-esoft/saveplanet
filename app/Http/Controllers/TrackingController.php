@@ -91,7 +91,7 @@ class TrackingController extends Controller
                 return back()->with('error', 'Please assign offcer before change the status !');
             } else {
                 Complaint::where('complaint_id', $complain_id)->update([
-                    'complain_status' => $complain_status
+                    'status' => $complain_status
                 ]);
                 ComplaintStatus::create([
                     'complaint_id' => $complain_id,
