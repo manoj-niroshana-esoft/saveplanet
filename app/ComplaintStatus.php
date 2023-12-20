@@ -12,6 +12,6 @@ class ComplaintStatus extends Model
     public $primaryKey = 'complaint_status_id';
     public $timestamps = true;
     protected $fillable = [
-        'complaint_id', 'status', 'officer_id '
+        'complaint_id', 'status', 'officer_id', 'comment'
     ];
 }
