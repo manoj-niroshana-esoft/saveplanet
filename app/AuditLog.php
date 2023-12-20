@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AuditLog extends Model
 {
+    use SoftDeletes;
     protected $table = 'audit_log';
     public $primaryKey = 'audit_log_id';
     public $timestamps = true;
