@@ -98,3 +98,52 @@
 <script src="{{ asset(mix('js/scripts/extensions/sweet-alerts.js')) }}"></script>
 @extends('layouts/messageView')
 @if (session('error'))
+<script>
+    $(document).ready(function() {
+            Swal.fire({
+                title: "Error!",
+                text: "{{ session('error') }}",
+                type: "error",
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+            });
+        });
+</script>
+@elseif (session('warning'))
+<script>
+    $(document).ready(function() {
+            Swal.fire({
+                title: "Warning!",
+                text: "{{ session('warning') }}",
+                type: "warning",
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+            });
+        });
+</script>
+@elseif (session('success'))
+<script>
+    $(document).ready(function() {
+            Swal.fire({
+                title: "Good job!",
+                text: "{{ session('success') }}",
+                type: "success",
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+            });
+        });
+</script>
+@elseif (session('info'))
+<script>
+    $(document).ready(function() {
+            Swal.fire({
+                title: "Info!",
+                text: "{{ session('info') }}",
+                type: "info",
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+            });
+        });
+</script>
+@endif
+@endsection
