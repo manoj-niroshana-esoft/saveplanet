@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Officer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\User;
+use Auth;
+use DB;
+use Hash;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facedes\view;
+use Log;
+use Mail;
+use stdClass;
+use Str;
 use Validator;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUser; 
+
 class AuthController extends Controller
 {
     /**

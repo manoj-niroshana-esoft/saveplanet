@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Officer;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -18,6 +19,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthenticationController extends Controller
 {
+    //  public function __construct()
+    // {
+    //     $this->middleware('auth_verify');
+    // }
     // Login
     public function login()
     {
@@ -74,6 +79,7 @@ class AuthenticationController extends Controller
                 'address' => $request->address,
                 'nic' => $request->nic,
                 'email' => $request->email,
+                'user_type' => 1,
             ]);
 
             /**
@@ -177,6 +183,7 @@ class AuthenticationController extends Controller
             $request->session()->put('nic', Auth::user()->nic);
             $request->session()->put('email', Auth::user()->email);
             $request->session()->put('auth_user', 1);
+            $request->session()->put('auth_type', Auth::user()->user_type);
             $user = Auth::check();
             // dd($user);
             return redirect()->intended('dashboard-analytics');
