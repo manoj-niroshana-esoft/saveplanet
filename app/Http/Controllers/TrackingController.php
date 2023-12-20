@@ -86,12 +86,12 @@ class TrackingController extends Controller
         $comment = $request->comment;
         DB::beginTransaction();
         try {
-            $complaint_exists = ComplaintStatus::where('complaint_id', $complain_id)->where('complain_status', 2)->first();
+            $complaint_exists = ComplaintStatus::where('complaint_id', $complain_id)->where('status', 2)->first();
             if (!$complaint_exists) {
                 return back()->with('error', 'Please assign offcer before change the status !');
             } else {
                 Complaint::where('complaint_id', $complain_id)->update([
-                    'status' => $complain_status
+                    'complain_status' => $complain_status
                 ]);
                 ComplaintStatus::create([
                     'complaint_id' => $complain_id,
