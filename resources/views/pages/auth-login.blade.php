@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                             <p class="px-2">Welcome back, please login to your account.</p>
-                            <div class="card-content">
+                            <div class="card-content" style="padding-bottom: 4rem;">
                                 <div class="card-body pt-1">
                                     <form method="POST" action="{{ route('authenticate') }}">
                                         @csrf
