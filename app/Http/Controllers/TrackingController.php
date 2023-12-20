@@ -13,6 +13,7 @@ use DB;
 use Validator;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class TrackingController extends Controller
 {
