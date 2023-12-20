@@ -78,6 +78,7 @@ class AuthenticationController extends Controller
                 'address' => $request->address,
                 'nic' => $request->nic,
                 'email' => $request->email,
+                'user_type' => 1,
             ]);
 
             /**
