@@ -215,3 +215,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 //     Artisan::call('config:clear');
 //     return "Cache is cleared...";
 // });
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
