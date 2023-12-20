@@ -97,4 +97,16 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request, $id)
+    {
+    }
+    public function update_branch(Request $request)
+    {
+        $branch = Branch::find($request->id);
+        $branch->name = $request->input('branch_name');
+        $branch->division_id = $request->input('division_id');
+        $branch->save();
+
+        return redirect('/manage-branch')->with('success', 'Branch Saved Success');
+    }
 }
