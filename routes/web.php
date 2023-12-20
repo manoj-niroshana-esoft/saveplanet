@@ -22,8 +22,46 @@ Route::get('/', 'AuthenticationController@login');
 
 // Route Dashboards
 Route::get('/dashboard-analytics', 'DashboardController@dashboardAnalytics');
-Route::get('/dashboard-ecommerce', 'DashboardController@dashboardEcommerce');
 
+// Route Authentication Pages
+Route::get('/auth-login', 'AuthenticationController@login')->name('login');
+Route::post('/authenticate', 'AuthenticationController@authenticate')->name('authenticate');
+Route::get('/auth-register', 'AuthenticationController@register');
+Route::post('/register-user', 'AuthenticationController@register_user')->name('register_user');
+Route::get('/logout', 'AuthenticationController@logout')->name('logout');
+Route::get('/auth-forgot-password', 'AuthenticationController@forgot_password');
+Route::get('/auth-reset-password', 'AuthenticationController@reset_password');
+Route::get('/auth-lock-screen', 'AuthenticationController@lock_screen');
+
+// complain management
+Route::get('/complaint', 'ComplaintController@complaint');
+Route::post('/new-complaint', 'ComplaintController@new_complaint')->name('new_complaint');
+Route::get('/view-complaint', 'ComplaintController@view_complaint')->name('view_complaint');
+Route::get('/view-complaint-detailst/{id}', 'ComplaintController@view_complaint_details')->name('view_complaint_details');
+Route::get('/new-complaint', 'ComplaintController@wizard');
+
+// Tracking Management
+Route::get('/track-complaint/{id}', 'TrackingController@track_complaints')->name('track_complaints');
+Route::post('/save-track-complaint', 'TrackingController@save_track_complaints')->name('save_track_complaints');
+
+// Audit log
+Route::get('/view-audit-log', 'AuditlogController@view_audit_log')->name('view_audit_log');
+
+// Manage Institution
+Route::resource('manage-institution', 'InstitutionController');
+Route::post('/update-institution', 'InstitutionController@update_institution')->name('manage-institution.new-update');
+
+// Manage Division
+Route::resource('manage-division', 'DivisionController');
+Route::post('/update-division', 'DivisionController@update_division')->name('manage-division.new-update');
+
+// Manage Branch
+Route::resource('manage-branch', 'BranchController');
+Route::post('/update-branch', 'BranchController@update_branch')->name('manage-branch.new-update');
+
+// Officer Assign Manually
+
+Route::post('/save-assigned-officer', 'ComplaintController@save_assigned_officer')->name('save_assigned_officer');
 
 // Route Apps
 Route::get('/app-email', 'EmailAppController@emailApp');
@@ -125,29 +163,6 @@ Route::get('/page-invoice', 'PagesController@invoice');
 Route::get('/page-account-settings', 'PagesController@account_settings');
 Route::get('/pricing', 'PagesController@pricing');
 
-// Route Authentication Pages
-Route::get('/auth-login', 'AuthenticationController@login')->name('login');
-Route::post('/authenticate', 'AuthenticationController@authenticate')->name('authenticate');
-Route::get('/auth-register', 'AuthenticationController@register');
-Route::post('/register-user', 'AuthenticationController@register_user')->name('register_user');
-Route::get('/logout', 'AuthenticationController@logout')->name('logout');
-Route::get('/auth-forgot-password', 'AuthenticationController@forgot_password');
-Route::get('/auth-reset-password', 'AuthenticationController@reset_password');
-Route::get('/auth-lock-screen', 'AuthenticationController@lock_screen');
-
-// complain management
-Route::get('/complaint', 'ComplaintController@complaint');
-Route::post('/new-complaint', 'ComplaintController@new_complaint')->name('new_complaint');
-Route::get('/view-complaint', 'ComplaintController@view_complaint')->name('view_complaint');
-Route::get('/view-complaint-detailst/{id}', 'ComplaintController@view_complaint_details')->name('view_complaint_details');
-Route::get('/new-complaint', 'ComplaintController@wizard');
-
-// Tracking Management
-Route::get('/track-complaint/{id}', 'TrackingController@track_complaints')->name('track_complaints');
-Route::post('/save-track-complaint', 'TrackingController@save_track_complaints')->name('save_track_complaints');
-
-// Audit log
-Route::get('/view-audit-log', 'AuditlogController@view_audit_log')->name('view_audit_log');
 
 // Route Miscellaneous Pages
 Route::get('/page-coming-soon', 'MiscellaneousController@coming_soon');
