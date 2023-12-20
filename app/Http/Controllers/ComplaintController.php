@@ -209,18 +209,20 @@ class ComplaintController extends Controller
                 ->where('officer.availability', 1)
                 ->whereNull('officer.current_complaint_id')
                 ->limit(1)->first();
-            DB::table('officer')
-                ->where('officer.officer_id', $officer->officer_id)
-                ->update(['availability' => 0, 'current_complaint_id' => $complaint]);
-            Complaint::where('complaint_id', $complaint)->update([
-                'complain_status' => 2
-            ]);
-            ComplaintStatus::create([
-                'complaint_id' => $complaint,
-                'status' => 2,
-                'comment' => 'Automatically Assigned Officer',
-                'officer_id' =>  $officer->officer_id,
-            ]);
+            if ($officer) {
+                DB::table('officer')
+                    ->where('officer.officer_id', $officer->officer_id)
+                    ->update(['availability' => 0, 'current_complaint_id' => $complaint]);
+                Complaint::where('complaint_id', $complaint)->update([
+                    'complain_status' => 2
+                ]);
+                ComplaintStatus::create([
+                    'complaint_id' => $complaint,
+                    'status' => 2,
+                    'comment' => 'Automatically Assigned Officer',
+                    'officer_id' =>  $officer->officer_id,
+                ]);
+            }
             DB::commit();
             return redirect('view-complaint')->with('success', 'Complaint Created in successfully!');
         } catch (\Exception $e) {
