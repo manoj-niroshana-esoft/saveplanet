@@ -142,7 +142,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif {{session()->
+                             <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif {{session()->
                                 get('auth_type')!=2?'hidden':''}}>
                                 <div class="card-content">
                                     <div class="card-body">
