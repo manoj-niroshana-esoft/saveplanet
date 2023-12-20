@@ -11,7 +11,6 @@ use App\Http\Controllers\LanguageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Auth::routes();
 
 // Route url
 // Route::get('/', function () {
@@ -208,6 +207,7 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
 
 // Save Planet Routes start
+
 // Route::get('clear-cache', function () {
 //     Artisan::call('cache:clear');
 //     Artisan::call('view:clear');
