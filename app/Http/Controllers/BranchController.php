@@ -50,4 +50,20 @@ class BranchController extends Controller
         $divisions = Division::all();
         return view('pages.create-branch', compact(['breadcrumbs', 'divisions']));
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        Branch::create([
+            'name' => $request->branch_name,
+            'division_id' => $request->division_id
+        ]);
+
+        return redirect('/manage-branch')->with('success', 'Branch Saved Success.');
+    }
 }
