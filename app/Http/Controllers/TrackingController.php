@@ -89,10 +89,10 @@ class TrackingController extends Controller
                 'complaint_id' => $complain_id,
                 'status' => $complain_status,
                 'comment' => $comment,
-                'officer_id' =>  1,
+                'officer_id' =>  $request->session()->get('officer_id'),
             ]);
             AuditLog::create([
-                'u_id' => 1,
+                'u_id' => $request->session()->get('u_id'),
                 'section_name' => 'Update Tracking',
                 'action' => 'Tracking update',
                 'previous_records' => '',
