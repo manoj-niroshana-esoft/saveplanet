@@ -1,7 +1,7 @@
 <?php
 
+use App\Institution;
 use Illuminate\Database\Seeder;
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        Institution::create([
+            'name' => 'Wildlife Conservation',
+        ]);
+        Institution::create([
+            'name' => 'Forestry Conservations',
+        ]);
     }
 }

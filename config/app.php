@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+    'activation_link' => env('ACTIVATION_LINK'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -79,7 +79,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-    
+
     'locale' => "en",
 
     /*
