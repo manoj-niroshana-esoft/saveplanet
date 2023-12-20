@@ -184,6 +184,7 @@ class ComplaintController extends Controller
             ComplaintStatus::create([
                 'complaint_id' => $complaint,
                 'status' => 1,
+                'comment' => 'Complain Recorded',
             ]);
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $key => $image) {
