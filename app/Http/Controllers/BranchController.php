@@ -109,4 +109,18 @@ class BranchController extends Controller
 
         return redirect('/manage-branch')->with('success', 'Branch Saved Success');
     }
+
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $branch = Branch::find($id);
+        $branch->delete();
+        return redirect('/manage-branch')->with('success', 'Branch Removed Success');
+    }
 }
