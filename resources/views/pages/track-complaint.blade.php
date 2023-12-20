@@ -142,7 +142,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif @if ($request->session()->get('auth_type')!=2) hidden @endif>
+                            <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif @if (session()->get('auth_type')!=2) hidden @endif>
                                 <div class="card-content">
                                     <div class="card-body">
                                         <form action="{{ route('save_track_complaints') }}" method="post">
