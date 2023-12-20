@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class AuditlogController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth_verify');
+    }
     public function view_audit_log()
     {
         $breadcrumbs = [

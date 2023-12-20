@@ -38,6 +38,9 @@ Route::post('/new-complaint', 'ComplaintController@new_complaint')->name('new_co
 Route::get('/view-complaint', 'ComplaintController@view_complaint')->name('view_complaint');
 Route::get('/view-complaint-detailst/{id}', 'ComplaintController@view_complaint_details')->name('view_complaint_details');
 Route::get('/new-complaint', 'ComplaintController@wizard');
+Route::get('/delete-complaint', 'ComplaintController@destroy')->name('destroy_complaint');
+Route::get('/edit-complaint', 'ComplaintController@edit_complaint')->name('edit_complaint');
+Route::get('/update-complaint', 'ComplaintController@update_complaint')->name('update_complaint');
 
 // Tracking Management
 Route::get('/track-complaint/{id}', 'TrackingController@track_complaints')->name('track_complaints');
