@@ -13,11 +13,19 @@ use DB;
 use Validator;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class TrackingController extends Controller
 {
+   public function __construct()
+    {
+        $this->middleware('auth_verify');
+    }
     public function track_complaints(Request $request)
     {
+        $breadcrumbs = [
+            ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "Track Complaint"]
+        ];
         $tracking_id = $request->id;
         $complaints = Complaint::where('complaint_id', $tracking_id)->get();
         $complaints->transform(function ($complaint) {
@@ -63,10 +71,7 @@ class TrackingController extends Controller
                 'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $trac->created_at)->format('D, M d'),
             ];
         });
-        // dd($tracking);
-        $breadcrumbs = [
-            ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "Track Complaint"]
-        ];
+
         return view('/pages/track-complaint', [
             'breadcrumbs' => $breadcrumbs,
             'complaint' => $complaints[0],
@@ -81,27 +86,6 @@ class TrackingController extends Controller
         $comment = $request->comment;
         DB::beginTransaction();
         try {
-<<<<<<< Updated upstream
-            // dd($complain_status);
-            Complaint::where('complaint_id', $complain_id)->update([
-                'complain_status' => $complain_status
-            ]);
-            ComplaintStatus::create([
-                'complaint_id' => $complain_id,
-                'status' => $complain_status,
-                'comment' => $comment,
-                'officer_id' =>  $request->session()->get('officer_id'),
-            ]);
-            AuditLog::create([
-                'u_id' => $request->session()->get('u_id'),
-                'section_name' => 'Update Tracking',
-                'action' => 'Tracking update',
-                'previous_records' => '',
-                'new_records' => 'Complaint Status : ' . $complain_status . ' Comment : ' . $comment
-            ]);
-            DB::commit();
-            return back()->with('success', 'Tracking updated in successfully!');
-=======
             $complaint_exists = Complaint::where('complaint_id', $complain_id)->where('complain_status', 2)->first();
             if (!$complaint_exists) {
                 return back()->with('error', 'Please assign offcer before change the status !');
@@ -125,18 +109,17 @@ class TrackingController extends Controller
                 DB::commit();
                 return back()->with('success', 'Tracking updated in successfully!');
             }
->>>>>>> Stashed changes
         } catch (\Exception $e) {
             DB::rollback();
             Log::critical($e->getMessage());
             AuditLog::create([
-                'u_id' =>  $request->session()->get('u_id'),
+                'u_id' => 1,
                 'section_name' => 'Update Tracking',
                 'action' => 'Tracking update - Error',
                 'previous_records' => '',
                 'new_records' => 'Complaint Status : ' . $complain_status . ' Comment : ' . $comment
             ]);
             return  back()->with('error', $e->getMessage());
-        }
-    }
+        }
+    }
 }
