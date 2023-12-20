@@ -142,7 +142,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif>
+                            <div class="col-5" @if ($complaint['complain_status']==4) hidden @endif {{session()->
+                                get('auth_type')!=2?'hidden':''}}>
                                 <div class="card-content">
                                     <div class="card-body">
                                         <form action="{{ route('save_track_complaints') }}" method="post">
@@ -258,7 +259,8 @@
                             </div>
                         </div>
                         <div>
-                            <a style="float: right" class="btn btn-primary mb-1" href="{!! route('view_complaint') !!}">Back</a>
+                            <a style="float: right" class="btn btn-primary mb-1"
+                                href="{!! route('view_complaint') !!}">Back</a>
                         </div>
                     </div>
                 </div>

@@ -54,10 +54,10 @@
                                             <a title="Assign Officer" style="color: #7367f0"
                                                 onclick="loadOfficerModel({{$complaint['complaint_id']}},{{$complaint['officer_id']}})"><i
                                                     class="feather icon-link"></i></a>
-                                            <a href="{!! route('edit_complaint', ['id'=>$complaint['complaint_id']]) !!}"
+                                            {{-- <a href="{!! route('edit_complaint', ['id'=>$complaint['complaint_id']]) !!}"
                                                 title="Edit Complaint"><i class="feather icon-edit"></i></a>
                                             <a href="{!! route('destroy_complaint', ['id'=>$complaint['complaint_id']]) !!}"
-                                                title="Delete Complaint"><i class="feather icon-trash"></i></a>
+                                                title="Delete Complaint"><i class="feather icon-trash"></i></a> --}}
                                         </td>
                                     </tr>
                                     @endforeach

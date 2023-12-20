@@ -7,6 +7,7 @@ use App\Complaint;
 use App\ComplaintDetail;
 use App\ComplaintStatus;
 use App\Institution;
+use App\Officer;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -18,11 +19,11 @@ use Illuminate\Support\Facades\Log;
 class TrackingController extends Controller
 {
 
-  public function __construct()
+    public function __construct()
     {
         $this->middleware('auth_verify');
     }
-  public function track_complaints(Request $request)
+    public function track_complaints(Request $request)
     {
         $breadcrumbs = [
             ['link' => "dashboard-analytics", 'name' => "Home"], ['name' => "Track Complaint"]
@@ -79,7 +80,7 @@ class TrackingController extends Controller
             'tracking_details' => $tracking,
         ]);
     }
-  public function save_track_complaints(Request $request)
+    public function save_track_complaints(Request $request)
     {
         $complain_id = $request->complain_id;
         $complain_status = $request->complain_status;
@@ -99,6 +100,11 @@ class TrackingController extends Controller
                     'comment' => $comment,
                     'officer_id' =>  $request->session()->get('officer_id'),
                 ]);
+                if ($complain_status == 4) {
+                    DB::table('officer')
+                        ->where('officer_id', $request->session()->get('officer_id'))
+                        ->update(['availability' => 1, 'current_complaint_id' => null]);
+                }
                 AuditLog::create([
                     'u_id' => $request->session()->get('u_id'),
                     'section_name' => 'Update Tracking',
