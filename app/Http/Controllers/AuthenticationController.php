@@ -177,6 +177,7 @@ class AuthenticationController extends Controller
             $request->session()->put('nic', Auth::user()->nic);
             $request->session()->put('email', Auth::user()->email);
             $request->session()->put('auth_user', 1);
+            $request->session()->put('auth_type', Auth::user()->user_type);
             $user = Auth::check();
             // dd($user);
             return redirect()->intended('dashboard-analytics');
