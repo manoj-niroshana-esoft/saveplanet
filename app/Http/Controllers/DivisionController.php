@@ -13,6 +13,10 @@ use Carbon\Carbon;
 
 class DivisionController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth_verify');
+    }
     /**
      * Display a listing of the resource.
      *
