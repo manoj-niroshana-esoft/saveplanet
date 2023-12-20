@@ -164,7 +164,13 @@ class AuthenticationController extends Controller
             ]);
         }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (Auth::user()->user_type == '2') {
+                $officer = Officer::where('u_id', Auth::user()->u_id)->first();
+            } else {
+                $officer = null;
+            }
             $request->session()->put('u_id', Auth::user()->u_id);
+            $request->session()->put('officer_id', $officer != null ? $officer->officer_id : '');
             $request->session()->put('first_name', Auth::user()->first_name);
             $request->session()->put('last_name', Auth::user()->last_name);
             $request->session()->put('address', Auth::user()->address);
