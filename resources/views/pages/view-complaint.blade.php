@@ -46,9 +46,14 @@
                                         <td>{{$complaint['updated_at']}}</td>
                                         <td>
                                             <a href="{!! route('view_complaint_details', ['id'=>$complaint['complaint_id']]) !!}"
-                                                target="_blank"><i class="feather icon-map-pin"></i></a>
+                                                target="_blank" title="View Complaint Details"><i
+                                                    class="feather icon-map-pin"></i></a>
                                             <a href="{!! route('track_complaints', ['id'=>$complaint['complaint_id']]) !!}"
-                                                target="_blank"><i class="feather icon-search"></i></a>
+                                                target="_blank" title="View Tracking"><i
+                                                    class="feather icon-search"></i></a>
+                                            <a title="Assign Officer" style="color: #7367f0"
+                                                onclick="loadOfficerModel({{$complaint['complaint_id']}},{{$complaint['officer_id']}})"><i
+                                                    class="feather icon-link"></i></a>
                                             {{-- <a href=""><i class="feather icon-edit"></i></a>
                                             <a href=""><i class="feather icon-trash"></i></a> --}}
                                         </td>
@@ -70,6 +75,42 @@
                             </table>
                         </div>
                     </div>
+                    <div class="modal fade" id="officer_model" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                            role="document">
+                            <form action="{{ route('save_assigned_officer') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="complaint_id" id="complaint_id">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Assign Officer</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="assign_officer_model_body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"> Officer :
+                                                <select class="custom-select form-control" required id="officer_id"
+                                                    name="officer_id">
+                                                    <option value="">Select Officer</option>
+                                                    @foreach ($officers as $officer)
+                                                    <option value="{{$officer->officer_id}}">
+                                                        {{$officer->name.'-'.$officer->institution_name.'-'.$officer->division_name.'-'.$officer->branch_name}}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,6 +129,17 @@
 <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.bootstrap4.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
+<script>
+    function loadOfficerModel(complaint_id,officer_id) {
+            if (officer_id) {
+                $('#officer_id').val(officer_id);
+            }else{
+                $('#officer_id').val(null);
+            }
+            $('#complaint_id').val(complaint_id);
+            $('#officer_model').modal('show');
+    }
+</script>
 @endsection
 @section('page-script')
 {{-- Page js files --}}

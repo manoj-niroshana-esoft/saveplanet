@@ -12,10 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Institution::create([
-            'name' => 'wildlife conservation',
+            'name' => 'Wildlife Conservation',
         ]);
         Institution::create([
-            'name' => 'forestry conservations',
+            'name' => 'Forestry Conservations',
         ]);
     }
 }

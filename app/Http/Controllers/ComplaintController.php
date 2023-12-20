@@ -7,6 +7,7 @@ use App\Complaint;
 use App\ComplaintDetail;
 use App\ComplaintStatus;
 use App\Institution;
+use App\Officer;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -59,25 +60,92 @@ class ComplaintController extends Controller
             if ($complaint->to_time != null) {
                 $timeframe .=   ' ' . $complaint->to_time;
             }
+            $complaint_status = ComplaintStatus::where([['complaint_id', $complaint->complaint_id], ['status', 2]])->first();
+            // dd($complaint_status);
             return [
                 'complaint_id' => $complaint->complaint_id,
                 'complain_type' => $complain_type,
                 'institution' => $institution,
                 'description' => $complaint->description,
                 'timeframe' => $timeframe,
+                'officer_id' => $complaint_status != null ? $complaint_status->officer_id : '',
                 'reported_by' => $reported_by->first_name . ' ' . $reported_by->last_name,
                 'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $complaint->created_at)->format('Y-m-d H:i:s'),
                 'updated_at' => $complaint->updated_at != null ? Carbon::createFromFormat('Y-m-d H:i:s', $complaint->updated_at)->format('Y-m-d H:i:s') : '-',
             ];
         });
-        // dd($complaints[0]);
+        $officers =  DB::table('officer')
+            ->join('branch', 'branch.branch_id', '=', 'officer.branch_id')
+            ->join('division', 'division.division_id', '=', 'branch.division_id')
+            ->join('institution', 'institution.institution_id', '=', 'division.institution_id')
+            ->get(['officer.officer_id', 'officer.name', 'division.name as division_name', 'branch.name as branch_name', 'institution.name as institution_name']);
         return view('/pages/view-complaint', [
             'breadcrumbs' => $breadcrumbs,
             'complaints' => $complaints,
+            'officers' => $officers,
         ]);
     }
 
-
+    public function save_assigned_officer(Request $request)
+    {
+        $complain_id = $request->complaint_id;
+        $officer_id = $request->officer_id;
+        DB::beginTransaction();
+        try {
+            DB::table('officer')
+                ->where('officer.officer_id', $officer_id)
+                ->update(['availability' => 0, 'current_complaint_id' => $complain_id]);
+            Complaint::where('complaint_id', $complain_id)->update([
+                'complain_status' => 2
+            ]);
+            $complaint_status =  ComplaintStatus::where([
+                ['complaint_id', '=',  $complain_id],
+                ['status', '=',  2],
+            ])->get();
+            if ($complaint_status->count() > 0) {
+                $complaint_status_officer =  ComplaintStatus::where([
+                    ['status', '!=',  4],
+                    ['officer_id', '=',  $officer_id],
+                ])->get();
+                if ($complaint_status_officer->count() > 0) {
+                    return back()->with('error', 'The officer has already assigned the job!');
+                } else {
+                    $complaint_status_previous_officer =  ComplaintStatus::where([
+                        ['status', '=', 2],
+                        ['complaint_id', '=',  $complain_id],
+                    ])->first();
+                    Officer::where('officer_id', $complaint_status_previous_officer->officer_id)->update([
+                        'current_complaint_id' => null,
+                        'availability' => 1,
+                    ]);
+                    ComplaintStatus::where([
+                        ['complaint_id', '=',  $complain_id],
+                        ['status', '=',  2],
+                    ])->update([
+                        'complaint_id' => $complain_id,
+                        'status' => 2,
+                        'comment' => 'Manually Assigned Officer',
+                        'officer_id' =>  $officer_id,
+                    ]);
+                    DB::commit();
+                    return back()->with('success', 'Officer reassigned in successfully!');
+                }
+            } else {
+                ComplaintStatus::create([
+                    'complaint_id' => $complain_id,
+                    'status' => 2,
+                    'comment' => 'Manually Assigned Officer',
+                    'officer_id' =>  $officer_id,
+                ]);
+                DB::commit();
+                return back()->with('success', 'Officer assigned in successfully!');
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::critical($e->getMessage());
+            return  back()->with('error', $e->getMessage());
+        }
+    }
 
     public function new_complaint(Request $request)
     {
@@ -133,7 +201,28 @@ class ComplaintController extends Controller
                     ]);
                 }
             }
-
+            $officer =  DB::table('officer')
+                ->join('branch', 'branch.branch_id', '=', 'officer.branch_id')
+                ->join('division', 'division.division_id', '=', 'branch.division_id')
+                ->join('institution', 'institution.institution_id', '=', 'division.institution_id')
+                ->where('institution.institution_id', $institution_id)
+                ->where('officer.availability', 1)
+                ->whereNull('officer.current_complaint_id')
+                ->limit(1)->first();
+            if ($officer) {
+                DB::table('officer')
+                    ->where('officer.officer_id', $officer->officer_id)
+                    ->update(['availability' => 0, 'current_complaint_id' => $complaint]);
+                Complaint::where('complaint_id', $complaint)->update([
+                    'complain_status' => 2
+                ]);
+                ComplaintStatus::create([
+                    'complaint_id' => $complaint,
+                    'status' => 2,
+                    'comment' => 'Automatically Assigned Officer',
+                    'officer_id' =>  $officer->officer_id,
+                ]);
+            }
             DB::commit();
             return redirect('view-complaint')->with('success', 'Complaint Created in successfully!');
         } catch (\Exception $e) {

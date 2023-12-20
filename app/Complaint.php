@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Complaint extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'complaint';
     public $primaryKey = 'complaint_id';
     public $timestamps = true;

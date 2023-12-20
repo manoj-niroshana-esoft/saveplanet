@@ -145,5 +145,8 @@ return [
     "New Complaint" => "New Complaint",
     "View Complaint" => "View Complaint",
     "View Audit Log" => "View Audit Log",
+    "Institution" => "Institution",
+    "Division" => "Division",
+    "Branch" => "Branch",
 ];
 
