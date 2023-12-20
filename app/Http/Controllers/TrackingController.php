@@ -117,5 +117,4 @@ class TrackingController extends Controller
             ]);
             return  back()->with('error', $e->getMessage());
         }
-    }
 }
