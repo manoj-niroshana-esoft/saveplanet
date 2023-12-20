@@ -36,4 +36,18 @@ class BranchController extends Controller
 
         return view('pages.view-branch', compact(['branches', 'breadcrumbs']));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $breadcrumbs = [
+            ['link' => "dashboard-analytics", 'name' => "Home"], ['link' => "manage-division", 'name' => "Manage Branch"], ['name' => "Create Branch"]
+        ];
+        $divisions = Division::all();
+        return view('pages.create-branch', compact(['breadcrumbs', 'divisions']));
+    }
 }
