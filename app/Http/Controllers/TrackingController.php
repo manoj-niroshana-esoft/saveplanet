@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 
 class TrackingController extends Controller
 {
-    public function __construct()
+   public function __construct()
     {
         $this->middleware('auth_verify');
     }
@@ -120,6 +120,6 @@ class TrackingController extends Controller
                 'new_records' => 'Complaint Status : ' . $complain_status . ' Comment : ' . $comment
             ]);
             return  back()->with('error', $e->getMessage());
-        }
-    }
+        }
+    }
 }

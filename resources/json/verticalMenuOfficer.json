@@ -14,12 +14,6 @@
       "icon": ""
     },
     {
-      "url": "complaint",
-      "name": "New Complaint",
-      "icon": "feather icon-message-square",
-      "i18n": "nav.complaint"
-    },
-    {
       "url": "view-complaint",
       "name": "View Complaint",
       "icon": "feather icon-airplay",

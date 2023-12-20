@@ -1,0 +1,57 @@
+{
+  "menu": [
+    {
+      "url": "/dashboard-analytics",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-home",
+      "i18n": "nav.dashboard_analytics"
+    },
+    {
+      "url": "",
+      "navheader": "Complaint",
+      "icon": ""
+    },
+    {
+      "url": "view-complaint",
+      "name": "View Complaint",
+      "icon": "feather icon-airplay",
+      "i18n": "nav.complaint"
+    },
+    {
+      "url": "",
+      "navheader": "Audit Log",
+      "icon": ""
+    },
+    {
+      "url": "view-audit-log",
+      "name": "View Audit Log",
+      "icon": "feather icon-slack",
+      "i18n": "nav.complaint"
+    },
+    {
+      "url": "",
+      "navheader": "System Hierarchy",
+      "icon": ""
+    },
+    {
+      "url": "manage-institution",
+      "name": "Institution",
+      "icon": "feather icon-settings",
+      "i18n": "nav.app_email"
+    },
+    {
+      "url": "manage-division",
+      "name": "Division",
+      "icon": "feather icon-settings",
+      "i18n": "nav.app_email"
+    },
+    {
+      "url": "manage-branch",
+      "name": "Branch",
+      "icon": "feather icon-settings",
+      "i18n": "nav.app_email"
+    }
+  ]
+}
