@@ -66,4 +66,35 @@ class BranchController extends Controller
 
         return redirect('/manage-branch')->with('success', 'Branch Saved Success.');
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $branch = Branch::find($id);
+        $divisions = Division::all();
+        return view('pages.edit-branch', compact(['branch', 'divisions']));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 }
