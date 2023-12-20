@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Edit Branch')
+@section('title', 'Manage Branch')
 
 @section('vendor-style')
 {{-- vendor css files --}}
@@ -16,74 +16,58 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Edit Branch</h4>
-                    <a style="float: right" class="btn btn-primary mb-1"
-                        href="{!! route('manage-branch.index') !!}">Back</a>
+                    <h4 class="card-title">Manage Branch</h4>
+                    <a style="float: right" class="btn btn-primary" href="{!! route('manage-branch.create') !!}">New
+                        Branch</i></a>
                 </div>
                 <div class="card-content">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <form class="form form-horizontal" method="POST"
-                                    action="{{ route('manage-branch.new-update',['id'=>$branch['branch_id']]) }}">
-                                    @csrf
-                                    <div class="form-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group row">
-                                                    <div class="col-md-4">
-                                                        <span>Branch Name</span>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <input type="text" class="form-control"
-                                                            value="{{$branch->name}}" required name="branch_name"
-                                                            placeholder="Branch Name">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group row">
-                                                    <div class="col-md-4">
-                                                        <span>Division Name</span>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <select class="custom-select form-control" required
-                                                            id="division_id" name="division_id">
-                                                            <option value="">Select Division</option>
-                                                            @foreach ($divisions as $division)
-                                                            @if($branch->division_id==$division->division_id)
-                                                            <option selected value="{{$division->division_id}}">
-                                                                {{$division->name}}
-                                                            </option>
-                                                            @else
-                                                            <option value="{{$division->division_id}}">
-                                                                {{$division->name}}
-                                                            </option>
-                                                            @endif
-
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 offset-md-4">
-                                            <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button>
-                                            <button type="reset"
-                                                class="btn btn-outline-warning mr-1 mb-1">Reset</button>
-                                        </div>
-                                    </div>
-                            </div>
-                            </form>
+                    <div class="card-body card-dashboard">
+                        <div class="table-responsive">
+                            <table class="table zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>Branch Name</th>
+                                        <th>Division Name</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($branches as $branch)
+                                    <tr>
+                                        <td>{{$branch['name']}}</td>
+                                        <td>{{$branch['division']}}</td>
+                                        <td>{{$branch['created_at']}}</td>
+                                        <td>
+                                            <a href="{!! route('manage-branch.edit', [$branch['branch_id']]) !!}"><i
+                                                    class="feather icon-edit"></i></a>
+                                            <form id="destroy-form"
+                                                action="{{ route('manage-branch.destroy', $branch['branch_id']) }}"
+                                                method="POST" style="display: none;">
+                                                @method('DELETE')
+                                                @csrf
+                                            </form>
+                                            <a href="#"
+                                                onclick="event.preventDefault(); document.getElementById('destroy-form').submit();">
+                                                <i class="feather icon-trash"></i>
+                                            </a>
+                                        </td>
+                                        @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Branch Name</th>
+                                        <th>Division Name</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
 </section>
 @endsection
 @section('vendor-script')
