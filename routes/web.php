@@ -65,6 +65,15 @@ Route::post('/update-branch', 'BranchController@update_branch')->name('manage-br
 
 Route::post('/save-assigned-officer', 'ComplaintController@save_assigned_officer')->name('save_assigned_officer');
 
+// user management
+Route::get('/user-management', 'UserController@usermanagement');
+Route::get('/view-user-management', 'UserController@view_users')->name('view-user-management');
+Route::get('/add_user_management', 'UserController@add_user_management')->name('add_user_management');
+Route::get('/edit_user_management/{id}', 'UserController@edit_user_management')->name('edit_user_management');
+Route::post('/register_user_management', 'UserController@register_user_management')->name('register_user_management');
+Route::post('/update_user_management', 'UserController@update_user_management')->name('update_user_management');
+
+
 // Route Apps
 Route::get('/app-email', 'EmailAppController@emailApp');
 Route::get('/app-chat', 'ChatAppController@chatApp');

@@ -148,5 +148,6 @@ return [
     "Institution" => "Institution",
     "Division" => "Division",
     "Branch" => "Branch",
+    "User Management" => "User Management"
 ];
 
