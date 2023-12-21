@@ -32,6 +32,23 @@
     },
     {
       "url": "",
+      "navheader": "User Management",
+      "icon": ""
+    },
+    {
+      "url": "view-user-management",
+      "name": "User Details",
+      "icon": "feather icon-user",
+      "i18n": "nav.view_users"
+    },
+    {
+      "url": "view-user-management",
+      "name": "User Group",
+      "icon": "feather icon-user",
+      "i18n": "nav.view_users"
+    },
+    {
+      "url": "",
       "navheader": "System Hierarchy",
       "icon": ""
     },
